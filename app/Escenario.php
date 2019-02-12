@@ -12,7 +12,7 @@ class Escenario extends Model
     }
     protected $fillable = [
         'name', 'paga', 'tipo', 'caracteristicas', 'direccion', 'latitud',
-        'longitud', 'detalles', 'horaBaned', 'horaOcupada', 'img','user_id'  
+        'longitud', 'detalles', 'horaBaned', 'horaOcupada', 'img','user_id','saveTime'  
     ];
 
 }

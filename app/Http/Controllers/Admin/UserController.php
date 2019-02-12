@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -37,9 +38,11 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
-    {
-        return view('admin.users.edit');
+    public function edit(User  $user)
+    {   
+        $roles = Role::get();
+        //$user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user','roles'));
     }
 
     /**
@@ -49,9 +52,13 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
-    {
-        return redirect()->route('admin.users.edit',$user->id)
+    public function update(Request $request, User  $user)
+    {   
+        //$user = User::find($id);
+        $user->update($request->all());
+        $user->roles()->sync($request->get('roles'));
+        
+        return redirect()->route('users.edit', $user->id)
             ->with('info', 'Usuario actualizado con exito');
     }
 
@@ -64,7 +71,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-         $escenario->delete();
+        $user->delete();
     
         return redirect()->back()->with('info','eliminado con exito');
     }

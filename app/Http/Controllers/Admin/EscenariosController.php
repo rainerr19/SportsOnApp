@@ -59,20 +59,26 @@ class EscenariosController extends Controller
         return view('admin.escenarios.create',compact('tabla'));
     }
 
-
+//EscenarioStoreRequest
     public function store(EscenarioStoreRequest $request)
     {   //
         
         $TablaHora = new HoraTablaCreator();
         
         $data = array();
+  
         $data1 = $request->except(['ban_dia', 'ban_hora']);
         //$data1 = $request->only(['name', 'caracteristicas','detalles','paga','tipo','direccion']);
         $data2 = $request->only(['ban_dia', 'ban_hora']);
 
         $horasBan = $TablaHora->horasDB($data2['ban_dia'], $data2['ban_hora']);
         $horasBanDB = $TablaHora->semanaDB($horasBan);
-        $data = array_merge($data1,["horaBaned " => $horasBanDB] );
+        date_default_timezone_set("America/Bogota");
+        //$actual = strtotime("now");1987-11-22 13:15:12
+        $actual = date("Y-m-d H:i:s",strtotime("now"));// stamp "now" "27-05-2018 09:01"
+        //dd($actual);
+        $data = array_merge($data1,["horaBaned " => $horasBanDB,"user_id" => auth()->id(),  
+            'saveTime' => $actual] );
         $escenario = Escenario::create($data);
         
         //******* IMAGEN */
@@ -86,7 +92,7 @@ class EscenariosController extends Controller
         }
         
         //$escenarios = Escenario::create($request->all());
-         return redirect()->route('admin.escenarios.show', $escenario->id)
+         return redirect()->route('escenarios.edit', $escenario->id)
               ->with('info', 'Escenarios guardada con exito');
     }
 
@@ -99,7 +105,7 @@ class EscenariosController extends Controller
         $actual = strtotime("now");// stamp "now" "27-05-2018 09:01"
         $horaOc = $TablaHora -> tablaUpdate(null, 
             $escenario->saveTime, $actual);
-        $actual = date("Y-m-d H:i",$actual);
+        $actual = date("Y-m-d H:i:s",$actual);
 
         $escenario->update(["horaOcupada " => $horaOc,'saveTime' => $actual ]);
         $actual=[date("l",strtotime("now")),date("H",strtotime("now"))];
@@ -122,9 +128,9 @@ class EscenariosController extends Controller
 
     public function update(EscenarioUpdateRequest $request, Escenario $escenario)
     {   
-        $escenario->update($request->all());
         $this->authorize('pass', $escenario);//actualizar solos los escenarios propios o de socios
-        return redirect()->route('admin.escenario.edit',$escenario->id)
+        $escenario->update($request->all());
+        return redirect()->route('escenarios.edit',$escenario->id)
             ->with('info', 'Escenario actualizado con exito');
     }
 

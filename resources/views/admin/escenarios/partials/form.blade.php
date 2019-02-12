@@ -9,16 +9,18 @@
     </div>
     <div class='form-group'>
         {{Form::label('caracteristicas','Caracteristicas')}} 
-        
-        <textarea class='form-control' name='caracteristicas' required> </textarea>
+        {{Form::textarea('caracteristicas',null, ['class'=>'form-control','required'])}}
+        {{-- <textarea class='form-control' name='caracteristicas' required> </textarea> --}}
     </div>
     <div class='form-group'>
         {{Form::label('paga','paga?')}} 
         {{Form::select('paga',['0' => 'No', '1' => 'Si'])}}
     </div>
     <div class='form-group'>
-        <label>Detalles</label>
-        <textarea class='form-control' name='detalles'></textarea>
+        {{Form::label('detalles','Detalles')}} 
+        {{-- <label>Detalles</label> --}}
+        {{Form::textarea('detalles',null, ['class'=>'form-control'])}}
+        {{-- <textarea class='form-control' name='detalles'></textarea> --}}
     </div>
     <div class='form-group'>
         {{Form::label('tipo','Tipo')}} 
@@ -33,7 +35,7 @@
     </div>
     <div class='form-group'>
             {{Form::label('Imagen','Imagen del escenario')}}
-            {{Form::file('imagen',['class'=>'form-control-file'])}}
+            {{Form::file('imagen',['class'=>'form-control-file','required'])}}
         </div>
     <div class='form-group'>
         {{Form::label('ubicacion','Ubicacion - Latitud y longitud  eje:(10.9881611,-74.7891732)')}}
