@@ -27,7 +27,7 @@ class CreateEscenariosTable extends Migration
             $table->double('longitud',11,7); 		
             $table->string('horaBaned')->nullable();
             $table->string('horaOcupada')->nullable();
-            $table->string('img',128)->nullable();
+            $table->string('img',128)->default('default.png');
             $table->dateTime('saveTime');
             $table->timestamps();
             //relation 

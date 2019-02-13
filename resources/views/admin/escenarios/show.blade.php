@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-md-7">
         @if($escenario->img)
-            <img class='img-thumbnail' src={{$escenario->img}} style = 'max-height: 420px'>
+            <img class='img-thumbnail' src={{ asset(Storage::url($escenario->img))}} style = 'max-height: 420px'>
         @endif
 
     </div>

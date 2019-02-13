@@ -33,10 +33,27 @@
             'placeholder' => 'Direccion', 'maxlength'=>'45',
             'title'=>'maximo 45 caracteres', 'required'])}}
     </div>
-    <div class='form-group'>
-            {{Form::label('Imagen','Imagen del escenario')}}
-            {{Form::file('imagen',['class'=>'form-control-file','required'])}}
-        </div>
+    @if (Request::path()=='escenarios/create')
+        <div class='form-group row'>
+            {{-- <img width="400px" class='img-thumbnail' src={{ asset('/storage/default.png')}} > --}}
+            <div class="col-sm-9">
+                    {{Form::label('Imagen','Subir imagen del escenario')}}
+                    {{Form::file('imagen',['class'=>'form-control-file','required'])}}
+            </div>
+        </div> 
+    @else
+        <div class='form-group row'>
+            <div class="col-sm-7">
+            <img width="400px" class='img-thumbnail' src={{ asset(Storage::url($escenario->img))}} >
+            <h4>Imagen actual</h4>
+            </div>
+            <div class="col-sm-5">
+                    {{Form::label('Imagen','Cambiar imagen del escenario')}}
+                    {{Form::file('imagen',['class'=>'form-control-file','required'])}}
+            </div>
+        </div> 
+
+   @endif 
     <div class='form-group'>
         {{Form::label('ubicacion','Ubicacion - Latitud y longitud  eje:(10.9881611,-74.7891732)')}}
         {{Form::number('latitud',null, ['class'=>'form-control',
@@ -52,11 +69,7 @@
     <h4>horario restringido</h4>
     <p>(seleccione las hora en las que el escenario no se puede prestar)</p>
     <hr>
-    @php   /* $ban = DBsemana("");//horrios restringidos
-            $reservado = DBsemana("");
-            $tabla = tablaCreator($ban, $reservado, [' ','-1']);
-            */
-    @endphp 
+
     <div class='form-group table-responsive'>
         <table id='horario' class='table table-bordered table-striped table-condensed'>
             {!!$tabla!!}
@@ -67,12 +80,9 @@
         <input type='text' name='ban_dia' id='dia' hidden>
         <input type='text' name='ban_hora' id='hora' hidden>
     </div>
-        
-
     <hr>		
     <div class='form-group'>
             {{Form::submit(' Subir a paguina',['class'=>'btn btn-primary'])}}
     </div> 
-
-{{-- </form> --}}
 <hr>";
+        

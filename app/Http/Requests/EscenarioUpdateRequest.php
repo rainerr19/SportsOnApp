@@ -26,17 +26,17 @@ class EscenarioUpdateRequest extends FormRequest
         $rules = [
             'name' => 'required', 
             'paga' => 'required',
-            'tipo' => 'required|in:Futbol, Baloncesto, Voleibol, Mixta', 
+            'tipo' => 'required|in:Futbol,Baloncesto,Voleibol,Mixta', 
             'caracteristicas' => 'required', 
             'direccion' => 'required', 
             'latitud'  => 'numeric|required',
             'longitud' => 'numeric|required', 
-            //'img' => 'required',
+            'imagen' => 'image',
         ];
-        if($this->get('img')){
+        // if($this->get('img')){
 
-            $rules = array_merge($rules,['img' => 'mimes:jpg,jpeg,png']);
-        }
+        //     $rules = array_merge($rules,['img' => 'mimes:jpg,jpeg,png']);
+        // }
         return $rules;
     }
 }

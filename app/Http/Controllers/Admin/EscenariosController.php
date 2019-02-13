@@ -20,24 +20,24 @@ class EscenariosController extends Controller
     {
         $user = User::findOrFail(auth()->id());
         if ( !(($user->hasAllRoles('super-admin'))  or ($user->hasAllRoles('admin'))) ){
-
-           //$escenarios = $user->escenarios->count()//# de escenarios del user
-           //usuario solo puede ver sus canchas
-           if ($user->isAsociado()) {
-                 //Asociado::all()->where('escenario_id',$escenario->id)
-                $escenarios = Escenario::whereIn('id', Asociado::all()->where('user_asociado',auth()->id())->pluck('escenario_id'))->paginate(10);
-                
+            //$escenarios = $user->escenarios->count()//# de escenarios del user
+            //usuario solo puede ver sus canchas
+            if ($user->isAsociado()) {
+                  //Asociado::all()->where('escenario_id',$escenario->id)
+                 $escenarios = Escenario::whereIn('id', Asociado::all()->where('user_asociado',auth()->id())->pluck('escenario_id'))->paginate(10);
             }else{
                 $escenarios = Escenario::where('user_id', auth()->id())->paginate(10);//query
                 }
-           //$escenarios = $escenarios->paginate(10);//collection
+            //$escenarios = $escenarios->paginate(10);//collection
+        }else{
+            $escenarios = Escenario::paginate(10);
+       }
+       return view('admin.escenarios.index', compact('escenarios'));
+   }
 
-         }else{
+                
 
-             $escenarios = Escenario::paginate(10);
-        }
-        return view('admin.escenarios.index', compact('escenarios'));
-    }
+
     
     public function create()
      {   
@@ -62,41 +62,33 @@ class EscenariosController extends Controller
 //EscenarioStoreRequest
     public function store(EscenarioStoreRequest $request)
     {   //
-        
         $TablaHora = new HoraTablaCreator();
-        
         $data = array();
-  
         $data1 = $request->except(['ban_dia', 'ban_hora']);
         //$data1 = $request->only(['name', 'caracteristicas','detalles','paga','tipo','direccion']);
         $data2 = $request->only(['ban_dia', 'ban_hora']);
-
         $horasBan = $TablaHora->horasDB($data2['ban_dia'], $data2['ban_hora']);
         $horasBanDB = $TablaHora->semanaDB($horasBan);
         date_default_timezone_set("America/Bogota");
         //$actual = strtotime("now");1987-11-22 13:15:12
         $actual = date("Y-m-d H:i:s",strtotime("now"));// stamp "now" "27-05-2018 09:01"
         //dd($actual);
-        $data = array_merge($data1,["horaBaned " => $horasBanDB,"user_id" => auth()->id(),  
+        $data = array_merge($data1,["horaBaned" => $horasBanDB,"user_id" => auth()->id(),  
             'saveTime' => $actual] );
-        $escenario = Escenario::create($data);
-        
+        $escenario = (new Escenario)->fill($data);
+        //$escenario = Escenario::create($data);
         //******* IMAGEN */
-        if ($request->file('imagen')) {
-            //ruta de guadado de imagen 
-            $ruta = Storage::disk('public')->put('img',$request->file('imagen'));
-            //obtenemos el nombre del archivo
-            //$nombre = $file->getClientOriginalName();
-
-            $escenario->fill(['img' => asset( $ruta)])->save();
-        }
-        
-        //$escenarios = Escenario::create($request->all());
-         return redirect()->route('escenarios.edit', $escenario->id)
-              ->with('info', 'Escenarios guardada con exito');
+        $escenario->img = $request->file('imagen')->store('public/EscenarioImg');
+        $escenario->save();
+       //ruta de guadado de imagen 
+       //$ruta = Storage::disk('public')->put('img',$request->file('imagen'));
+       //obtenemos el nombre del archivo
+       //$nombre = $file->getClientOriginalName();
+       //$escenario->fill(['img' => asset( $ruta)])->save();
+        return redirect()->route('escenarios.edit', $escenario->id)
+             ->with('info', 'Escenarios guardada con exito');
     }
-
- 
+        
     public function show(Escenario $escenario)
     {   
         $this->authorize('pass', $escenario);//ver solos los escenarios propios o de socios
@@ -129,6 +121,10 @@ class EscenariosController extends Controller
     public function update(EscenarioUpdateRequest $request, Escenario $escenario)
     {   
         $this->authorize('pass', $escenario);//actualizar solos los escenarios propios o de socios
+        if ($request->hasFile('imagen')) {
+            Storage::delete($escenario->img);
+            $escenario->img = $request->file('imagen')->store('public/EscenarioImg');
+        }
         $escenario->update($request->all());
         return redirect()->route('escenarios.edit',$escenario->id)
             ->with('info', 'Escenario actualizado con exito');
@@ -138,9 +134,8 @@ class EscenariosController extends Controller
     {   
         $escenario = Escenario::findOrFail($id);
         $this->authorize('pass', $escenario);//eliminar solos los escenarios propios o de socios
-
+        Storage::delete($escenario->img);//eliminar la imagen
          $escenario->delete();
-    
         return redirect()->back()->with('info','eliminado con exito');
         // $cancha->delete();
         // return back()->with('info','eliminado con exito');
