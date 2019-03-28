@@ -48,14 +48,14 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name'  => 'eliminar_escenario']);
 
         // ********* se crean los roles *****
+        //
         $role = Role::create(['name' => 'super-admin']);
         $role->givePermissionTo(Permission::all());
         //
         $role = Role::create(['name' => 'admin']);
         $role->givePermissionTo(['lista_user','detalle_user','edit_user','lista_role',
-            'detalle_role', 'edit_role','lista_escenario', 'detalle_escenario', 
-            'edit_escenario','crear_escenario','eliminar_escenario']);
-
+        'edit_role','lista_escenario', 'detalle_escenario', 
+        'edit_escenario','crear_escenario','eliminar_escenario']);
         // 
         $role = Role::create(['name' => 'usuario'])
             ->givePermissionTo(['lista_escenario', 'detalle_escenario',]);

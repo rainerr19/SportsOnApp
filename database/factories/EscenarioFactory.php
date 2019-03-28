@@ -15,7 +15,6 @@ $factory->define(App\Escenario::class, function (Faker $faker) {
         'detalles'        => $faker-> sentence,
         'horaBaned'       => '2300-06L2300-06M2300-06I2300-06J2300-06V2300-06S2300-06D',
         'horaOcupada'     => null,
-        'img'             => $faker-> imageUrl($width = 1280, $height = 720),
         'saveTime'        => $faker-> dateTimeAD($max = 'yesterday',
              $timezone = 'America/Bogota'),
         'user_id'         => rand(1,7)

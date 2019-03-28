@@ -1,6 +1,6 @@
 <div class="row">
         <div class="col-sm-5"> 
-            <img src={{ asset('/storage/perfilDefault.jpg')}} 
+            <img src={{ asset(Storage::url($user->img))}} 
             class="img-thumbnail rounded-circle" style='max-height: 200px;max-width:200px'> 
         </div>
         <div class="col-sm-7">

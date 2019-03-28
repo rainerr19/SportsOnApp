@@ -82,7 +82,7 @@ Route::middleware(['auth'])->group( function (){
 /******************************  roles  *****************************/
     Route::post('roles/store', 'Admin\RoleController@store')
         ->name('roles.store')
-        ->middleware('permission:roles.create');
+        ->middleware('permission:crear_role');
     Route::get('roles', 'Admin\RoleController@index')
         ->name('roles.index')
 		->middleware('permission:lista_role');
@@ -95,7 +95,7 @@ Route::middleware(['auth'])->group( function (){
 
     Route::delete('roles/{role}', 'Admin\RoleController@destroy')
         ->name('roles.destroy')
-		->middleware('permission:eliminar_escenar');
+		->middleware('permission:eliminar_role');
     Route::get('roles/{role}/edit', 'Admin\RoleController@edit')
         ->name('roles.edit')
 		->middleware('permission:edit_role');

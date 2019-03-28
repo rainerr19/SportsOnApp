@@ -8,6 +8,7 @@ use \App\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use \App\Classes\HoraTablaCreator;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -28,12 +29,13 @@ class PageController extends Controller
     }
     public function updatePerfil(Request $request, User $user)
     {  //perfil
+        $user = User::findOrFail(auth()->id());
         if ($request->hasFile('imagen')) {
+            //dd($user->img);
             Storage::delete($user->img);
             $user->img = $request->file('imagen')->store('public/UserImg');
             $user->save();
         }
-        $user = User::findOrFail(auth()->id());
         $user->update($request->all());
         // $user = (new User)->fill($data);
         // //$escenario = Escenario::create($data);
