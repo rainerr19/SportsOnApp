@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Web;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \App\Escenario;
+use \App\User;
+use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 use \App\Classes\HoraTablaCreator;
 
 class PageController extends Controller
@@ -17,6 +19,38 @@ class PageController extends Controller
         //dd($escenarios);
         return view('web.escenarios', compact('escenarios'));
     }
+    public function perfil()
+    {  //perfil
+        //$this->authorize('ownPerfil', $user);
+        $user = User::findOrFail(auth()->id());
+        //$id = $user->$id;
+        return view('web.perfil', compact('user'));
+    }
+    public function updatePerfil(Request $request, User $user)
+    {  //perfil
+        if ($request->hasFile('imagen')) {
+            Storage::delete($user->img);
+            $user->img = $request->file('imagen')->store('public/UserImg');
+            $user->save();
+        }
+        $user = User::findOrFail(auth()->id());
+        $user->update($request->all());
+        // $user = (new User)->fill($data);
+        // //$escenario = Escenario::create($data);
+        // //******* IMAGEN */
+        // $user->img = $request->file('imagen')->store('public/UserImg');
+        // $user->save();
+        return redirect()->route('web.perfil')
+            ->with('info', 'perfil guardado con éxito');
+    }
+    public function destroy()
+    {
+        $user = User::findOrFail(auth()->id());
+        $user->delete();
+    
+        return redirect()->route('SportsOn')->with('info','eliminado con exito');
+    }
+
     public function show($id)
     {  //Escenario::findOrFail($id)->delete();
        

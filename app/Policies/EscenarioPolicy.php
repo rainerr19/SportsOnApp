@@ -17,7 +17,7 @@ class EscenarioPolicy
      *
      * @return void
      */
-    public function pass(User $user,Escenario $escenario )
+    public function owner(User $user,Escenario $escenario )
     {
         $permiso = FALSE;
         if ($user->isAsociado()) {
@@ -27,4 +27,9 @@ class EscenarioPolicy
         }
         return ($user->id == $escenario->user_id) or ($permiso) or ((($user->hasAllRoles('super-admin'))  or ($user->hasAllRoles('admin'))));
     }
+    // public function createLimite(User $user,Escenario $escenario )
+    // {
+    //     #code
+    //      #vista---> @can('createLimite', $escenarios) @endcan
+    // }
 }

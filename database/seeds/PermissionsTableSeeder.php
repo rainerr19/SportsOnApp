@@ -25,8 +25,6 @@ class PermissionsTableSeeder extends Seeder
 
         //Roles
         Permission::create(['name'  => 'lista_role']);
-
-        Permission::create(['name'  => 'detalle_role']);
         
         Permission::create(['name'  => 'crear_role']);
         

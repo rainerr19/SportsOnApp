@@ -18,6 +18,7 @@ Route::redirect('/','mainPage');
 Auth::routes();
 Route::get('mainPage', 'Web\PageController@main')->name('SportsOn');
 Route::get('mainPage/{id}/show', 'Web\PageController@show')->name('showEscenario');
+
 //Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group( function (){
@@ -51,6 +52,13 @@ Route::middleware(['auth'])->group( function (){
         ->middleware('permission:eliminar_escenario');
 /********************* USERS ***********************************/
     //permisos de listar
+    Route::get('web/perfil', 'web\PageController@perfil')
+        ->name('web.perfil');
+    Route::put('web/{id}', 'Web\PageController@updatePerfil')
+        ->name('updatePerfil');
+    Route::delete('web/{id}', 'Web\PageController@destroy')
+    ->name('perfil.destroy');
+
     Route::get('users', 'Admin\UserController@index')
         ->name('users.index')
         ->middleware('permission:lista_user');
@@ -71,4 +79,24 @@ Route::middleware(['auth'])->group( function (){
     Route::delete('users/{user}', 'Admin\UserController@destroy')
         ->name('users.destroy')
         ->middleware('permission:eliminar_user');
+/******************************  roles  *****************************/
+    Route::post('roles/store', 'Admin\RoleController@store')
+        ->name('roles.store')
+        ->middleware('permission:roles.create');
+    Route::get('roles', 'Admin\RoleController@index')
+        ->name('roles.index')
+		->middleware('permission:lista_role');
+    Route::get('roles/create', 'Admin\RoleController@create')
+        ->name('roles.create')
+        ->middleware('permission:crear_role');
+    Route::put('roles/{role}', 'Admin\RoleController@update')
+        ->name('roles.update')
+		->middleware('permission:edit_role');
+
+    Route::delete('roles/{role}', 'Admin\RoleController@destroy')
+        ->name('roles.destroy')
+		->middleware('permission:eliminar_escenar');
+    Route::get('roles/{role}/edit', 'Admin\RoleController@edit')
+        ->name('roles.edit')
+		->middleware('permission:edit_role');
 });

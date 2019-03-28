@@ -42,7 +42,8 @@
                             $i += 1;
                             @endphp
                             <div class='card'>
-                                <img class='card-img-top' src={{$img}} alt='Card image' style='max-height: 300px;width:100%'>
+                                <img class='card-img-top' src={{ asset(Storage::url($img))}} alt='Imagen de Escenario'
+                                     style='max-height: 300px;width:100%'>
                                 <div class='card-body'>
                                     <h4 class='card-title'>{{$Cnombre}}</h4>
                                     <h5 class='card-title'>Tipo:{{ $tipo}}</h5>

@@ -31,7 +31,7 @@ class EscenarioStoreRequest extends FormRequest
             'direccion' => 'required', 
             'latitud'  => 'numeric|required',
             'longitud' => 'numeric|required', 
-            'imagen' => 'required|image',
+            'imagen' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ];
         // if($this->get('imagen')){
 

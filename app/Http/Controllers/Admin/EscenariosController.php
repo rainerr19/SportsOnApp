@@ -91,7 +91,7 @@ class EscenariosController extends Controller
         
     public function show(Escenario $escenario)
     {   
-        $this->authorize('pass', $escenario);//ver solos los escenarios propios o de socios
+        $this->authorize('owner', $escenario);//ver solos los escenarios propios o de socios
         $TablaHora = new HoraTablaCreator();
         date_default_timezone_set("America/Bogota");
         $actual = strtotime("now");// stamp "now" "27-05-2018 09:01"
@@ -110,7 +110,7 @@ class EscenariosController extends Controller
 
 
     public function edit(Escenario $escenario)
-    {   $this->authorize('pass', $escenario);//editar solos los escenarios propios o de socios
+    {   $this->authorize('owner', $escenario);//editar solos los escenarios propios o de socios
         $TablaHora = new HoraTablaCreator();
         $ban = $TablaHora->DBsemana(""); //horrios restringidos
         $reservado = $TablaHora->DBsemana("");
@@ -120,7 +120,7 @@ class EscenariosController extends Controller
 
     public function update(EscenarioUpdateRequest $request, Escenario $escenario)
     {   
-        $this->authorize('pass', $escenario);//actualizar solos los escenarios propios o de socios
+        $this->authorize('owner', $escenario);//actualizar solos los escenarios propios o de socios
         if ($request->hasFile('imagen')) {
             Storage::delete($escenario->img);
             $escenario->img = $request->file('imagen')->store('public/EscenarioImg');
@@ -133,7 +133,7 @@ class EscenariosController extends Controller
     public function destroy($id)
     {   
         $escenario = Escenario::findOrFail($id);
-        $this->authorize('pass', $escenario);//eliminar solos los escenarios propios o de socios
+        $this->authorize('owner', $escenario);//eliminar solos los escenarios propios o de socios
         Storage::delete($escenario->img);//eliminar la imagen
          $escenario->delete();
         return redirect()->back()->with('info','eliminado con exito');
