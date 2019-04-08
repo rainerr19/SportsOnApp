@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use \App\Escenario;
 use \App\User;
+use \App\Interest;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use \App\Classes\HoraTablaCreator;
@@ -24,8 +25,9 @@ class PageController extends Controller
     {  //perfil
         //$this->authorize('ownPerfil', $user);
         $user = User::findOrFail(auth()->id());
+        $interests = Interest::paginate();
         //$id = $user->$id;
-        return view('web.perfil', compact('user'));
+        return view('web.perfil', compact('user','interests'));
     }
     public function updatePerfil(Request $request, User $user)
     {  //perfil
@@ -36,7 +38,16 @@ class PageController extends Controller
             $user->img = $request->file('imagen')->store('public/UserImg');
             $user->save();
         }
-        $user->update($request->all());
+        //$role->permissions()->sync($request->get('permissions'));
+        //  dd( $request);
+        if ($request->sexo == 'Vacio'){
+            $user->update($request->except(['sexo','preferencias']));
+            $user->interests()->sync($request->get('preferencias'));
+        }else{
+
+            $user->interests()->sync($request->get('preferencias'));
+            $user->update($request->except(['preferencias']));
+        }
         // $user = (new User)->fill($data);
         // //$escenario = Escenario::create($data);
         // //******* IMAGEN */

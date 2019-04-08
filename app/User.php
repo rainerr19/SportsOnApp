@@ -17,7 +17,7 @@ class User extends Authenticatable
     use HasRoles;
 
     protected $fillable = [
-        'name', 'email', 'password', 'img'
+        'name','apellidos','cel','birthdate', 'email', 'password', 'img', 'sexo'
     ];
 
     /**
@@ -31,6 +31,13 @@ class User extends Authenticatable
     public function escenarios()
     {
         return $this->hasMany(Escenario::class);
+    }
+    public function interests(){
+
+        return $this->belongsToMany('App\Interest','interests_user');
+        
+        //interest_id 	user_id  interests_user 
+        // (modelo a relacionar, nombre de tabla pivot, llave propia, llave foranea del modelo a realcionar)
     }
     public function asociados()
     {
