@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
                     
 
                         Escenarios
@@ -13,7 +13,7 @@
 
                         @can('crear_escenario')
                             <a href="{{ route('escenarios.create') }}" 
-                                class="btn btn-sm btn-primary pull-right">
+                                class="btn btn-sm btn-primary float-right">
                                 Crear
                             </a>
                         @endcan 
@@ -21,13 +21,13 @@
                     
                 </div>
                 
-                <div class="panel-body">
+                <div class="card-body">
                   
-                    <table class="table table-bordered table-striped table-condensed">
+                    <table class="table">
                         <thead>
                             <th> ID  </th>
                             <th>  Título  </th>
-                            <th>  Acción </th>
+                            <th colspan="3">Acción</th>
                         </thead>
                         <tbody>
                             @foreach ($escenarios as $escenario)
@@ -37,7 +37,7 @@
                                     @can('detalle_escenario')
                                         <td width="10px">
                                             <a href="{{ route('escenarios.show', $escenario->id) }}" 
-                                            class="btn btn-sm btn-default">
+                                            class="btn btn-primary btn-sm">
                                                 ver
                                             </a>
                                         </td>
@@ -45,7 +45,7 @@
                                     @can('edit_escenario')
                                         <td width="10px">
                                             <a href="{{ route('escenarios.edit', $escenario->id) }}" 
-                                            class="btn btn-sm btn-default">
+                                            class="btn btn-secondary btn-sm">
                                                 editar
                                             </a>
                                         </td>
@@ -92,7 +92,8 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$escenarios->render()}}
+                    {{$escenarios->links("pagination::bootstrap-4")}}
+                    {{-- {{$escenarios->render()}} --}}
                 </div>
             </div>
         </div>

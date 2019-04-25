@@ -26,8 +26,13 @@
                             <p class="card-text" style="color: darkslategray">Genero: 
                                     {{( $user->sexo == null) ? 'No registrado' : $user->sexo }}
                             </p>
-                            <p class="card-text" style="color: darkslategray">Edad:
-                                {{( $user->birthdate == null) ? 'No registrado' : $user->birthdate }}</p>
+                            @php //logica en la vista
+                                 date_default_timezone_set("America/Mexico_City");
+                                $date1 = new DateTime($user->birthdate); $date2 = new DateTime("now");
+                                $diff = $date1->diff($date2); 
+                            @endphp
+                            <p class="card-text" style="color: darkslategray"> Edad: 
+                                {{($user->birthdate == null) ? 'No registrado': $diff->y }} años</p>
                         </div>
                     </div>
                     <hr>

@@ -3,25 +3,25 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
                     Roles
                     @can('crear_role')
                     <a href="{{ route('roles.create') }}" 
-                    class="btn btn-sm btn-primary pull-right">
+                    class="btn btn-sm btn-primary float-right">
                         Crear
                     </a>
                     @endcan
                 </div>
 
-                <div class="panel-body">
-                    <table class="table table-striped table-hover">
+                <div class="card-body">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th width="10px">ID</th>
                                 <th>Nombre</th>
-                                <th colspan="3">&nbsp;</th>
+                                <th colspan="3">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,7 +33,7 @@
                                 @can('edit_role')
                                 <td width="10px">
                                     <a href="{{ route('roles.edit', $role->id) }}" 
-                                    class="btn btn-sm btn-default">
+                                    class="btn btn-sm btn-secondary">
                                         editar
                                     </a>
                                 </td>

@@ -3,21 +3,21 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
    
                         Users
     
                 </div>
                 
-                <div class="panel-body">
+                <div class="card-body">
                   
-                    <table class="table table-bordered table-striped table-condensed">
+                    <table class="table">
                         <thead>
                             <th> ID  </th>
                             <th>  Usuarios  </th>
-                            <th>  Acción </th>
+                            <th colspan="3">Acción</th>
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
@@ -27,7 +27,7 @@
                                     @can('detalle_user')
                                         <td width="10px">
                                             <a href="{{ route('users.show', $user->id) }}" 
-                                            class="btn btn-sm btn-default">
+                                            class="btn btn-sm btn-primary">
                                                 ver
                                             </a>
                                         </td>
@@ -35,7 +35,7 @@
                                     @can('edit_user')
                                         <td width="10px">
                                             <a href="{{ route('users.edit', $user->id) }}" 
-                                            class="btn btn-sm btn-default">
+                                            class="btn btn-sm btn-secondary">
                                                 editar
                                             </a>
                                         </td>
@@ -81,7 +81,8 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$users->render()}}
+                    {{ $users->links("pagination::bootstrap-4")}}
+                    {{-- {{$users->render()}} --}}
                 </div>
             </div>
         </div>

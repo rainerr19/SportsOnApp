@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <div class="jumbotron">
+    {{-- <div class="jumbotron">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -86,10 +86,59 @@
         <a class='btn btn-warning' onclick='clearSelec()'>Borrar seleccion <span class='badge' id='c'> 0</span></a>
         <input type='text' name='ban_dia' id='dia' hidden>
         <input type='text' name='ban_hora' id='hora' hidden>
-    </div>
+    </div> --}}
+   
+        
+    <div class="card" style="min-width:320px;">
+        <h5 class="card-header">Horario de Escenario</h5>
+        <div class="card-body">
+            <div id='calendar'></div>
+        </div>
+    </div> 
     <br>
+    <div class="col-md-3">
+        <button class='btn btn-success' onclick='apartar()' id="btn-apartar" disabled>Apartar  Seleccion <span class='badge' id='seleccion'> 0</span></button>
+    </div>
+    <hr>
+
 </div>
-<hr>
 <br> 
+
+<!-- Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalDatePicker">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TituloMensaje">Titulo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div class="modal-body">
+                    <div class="container" id="DateMensaje">
+                        mensaje
+                    </div>
+                </div>
+                <div class="modal-footer">
+                        
+                        {{-- {!! Form::open(['route' => ['perfil.destroy', $user->id], 'method' => 'DELETE']) !!} --}}
+                         
+                        {{-- {!! Form::close() !!} --}}
+                    
+                    <button class="btn btn-secondary btn-lg" data-dismiss="modal" >Cerrar</button>    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
+@section('scripts')
+
+ <script src="{{ asset('js/calendarEscenarios.js') }}"></script>
+
+@endsection
+
+    
+
             

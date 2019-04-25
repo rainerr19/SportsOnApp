@@ -4,11 +4,11 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Edicion</div>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">Edicion</div>
 
-                <div class="panel-body">                    
+                <div class="card-body">                    
                     {!! Form::model($user, ['route' => ['updatePerfil', $user->id],
                     'method' => 'PUT', 'files' => true]) !!}
 

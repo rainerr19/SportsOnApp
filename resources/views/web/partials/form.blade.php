@@ -44,8 +44,10 @@
 </div>
 <div class="form-group row">
         {{Form::label('nacimiento','Fecha de nacimiento',['class'=>'col-sm-3 col-form-label'])}} 
-        <div class="col-sm-9"> 
-
+        <div class="input-group col-sm-9"> 
+            <div class="input-group-prepend">
+                <span class="input-group-text">: : :</span>
+            </div>
             {{ Form::date('birthdate', null,['class' => 'form-control']) }}
             
         </div>

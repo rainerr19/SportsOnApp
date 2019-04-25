@@ -18,6 +18,11 @@ Route::redirect('/','mainPage');
 Auth::routes();
 Route::get('mainPage', 'Web\PageController@main')->name('SportsOn');
 Route::get('mainPage/{id}/show', 'Web\PageController@show')->name('showEscenario');
+Route::get('mainPage/{id}/showHoras', 'Web\EscenariosCalendarController@get_horas')
+    ->name('HorasEscenario');
+Route::get('mainPage/{id}/showHorasBusy', 'Web\EscenariosCalendarController@get_horas_busy')
+    ->name('HorasBusyEscenario');
+
 
 //Route::get('/home', 'HomeController@index')->name('home');
 

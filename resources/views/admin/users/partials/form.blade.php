@@ -5,7 +5,7 @@
             </div>
         <div class="col-sm-7">
             <br><br>
-            {{Form::label('Imagen','Imagen del escenario')}}
+            {{Form::label('Imagen','Imagen del Usuario')}}
             {{Form::file('imagen',['class'=>'form-control-file'])}}
 
         </div>
@@ -43,9 +43,12 @@
             </div>
     </div>
     <div class="form-group row">
+        
             {{Form::label('nacimiento','Fecha de nacimiento',['class'=>'col-sm-3 col-form-label'])}} 
-            <div class="col-sm-9"> 
-    
+            <div class="input-group col-sm-9"> 
+                <div class="input-group-prepend">
+                    <span class="input-group-text">: : :</span>
+                </div>
                 {{ Form::date('birthdate', null,['class' => 'form-control']) }}
                 
             </div>
@@ -54,7 +57,8 @@
     <div class='form-group row'>
         {{Form::label('sexo','Genero',['class'=>'col-sm-3 col-form-label'])}} 
         <div class="col-sm-9">
-            {{Form::select('sexo',['Vacio' => '','Masculino' => 'Masculino', 'Femenino' => 'Femenino'])}}
+            {{Form::select('sexo',['Vacio' => '','Masculino' => 'Masculino', 'Femenino' => 'Femenino'],
+            ['class' => 'form-control'])}}
         </div>
     </div>
 <hr>

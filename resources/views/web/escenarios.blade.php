@@ -6,9 +6,11 @@
 
 <div class="container">
     {{-- <div class="row"> --}}
-        <div class="col-md-11 col-md-offset-1">
-            <h1>prueba de pagina para usuarios finales</h1>
-            @php
+        <div class="container">
+
+            <h3>Todos los escenarios deportivos</h3>
+            <div class="col-md-10">
+                @php
                 $i=0;
                 $s = sizeof($escenarios)/3;
                 if (!is_int($s)){
@@ -18,14 +20,14 @@
                 //echo sizeof($escenarios);
             @endphp
             @for ($l=0; $l < $s ; $l++) 
-                <br>
-                <div class='card-deck'>;
+            <br>
+                <div class='card-deck'>
                     @for ($k=0; $k <3 ; $k++) 
                         @if ($i>=sizeof($escenarios))
                             
-                            <div class='card'></div>
+                        <div class='card'></div>
                         @else
-                            @php
+                        @php
                             //$id = $idArray[$i];
                             $g = $escenarios[$i];
                             
@@ -43,7 +45,7 @@
                             @endphp
                             <div class='card'>
                                 <img class='card-img-top' src={{ asset(Storage::url($img))}} alt='Imagen de Escenario'
-                                     style='max-height: 300px;width:100%'>
+                                style='max-height: 300px;width:100%'>
                                 <div class='card-body'>
                                     <h4 class='card-title'>{{$Cnombre}}</h4>
                                     <h5 class='card-title'>Tipo:{{ $tipo}}</h5>
@@ -53,15 +55,19 @@
                                     <a type='button' href={{$ruta}} class='btn btn-primary'> Ver mas</a>
                                 </div>
                             </div>
-                        @endif
+                            @endif
                     @endfor
                 </div>
-            @endfor  
-            {{$escenarios->render()}}
+                
+                @endfor  
+                <br>
+                {{ $escenarios->links("pagination::bootstrap-4") }}
+            {{-- {{$escenarios->render()}} --}}
             <br>
                 
         </div>
-                
+    </div>
+        
     {{-- </div> --}}
 </div>
                                         
