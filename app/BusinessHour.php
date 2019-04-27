@@ -8,7 +8,10 @@ class BusinessHour extends Model
 {
     public $timestamps = FALSE;
     protected $fillable = [
-     'titulo', 'semanasArray','startTime','endTime',
+     'daysOfWeek',//dias de la semana
+     'startTime',
+     'endTime',
+     'escenario_id',
  ];
     public function escenarios()
     {

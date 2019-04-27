@@ -68,19 +68,29 @@ class PageController extends Controller
     {  //Escenario::findOrFail($id)->delete();
        
         $escenario = Escenario::findOrFail($id);
-        $TablaHora = new HoraTablaCreator();
+        // $TablaHora = new HoraTablaCreator();
         date_default_timezone_set("America/Bogota");
         $actual = strtotime("now");// stamp "now" "27-05-2018 09:01"
-        $horaOc = $TablaHora -> tablaUpdate(null, 
-            $escenario->saveTime, $actual);
-        $actual = date("Y-m-d H:i",$actual);
+        $precios =$escenario->prices;
+        $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
+            ,"Domingo","Festivos"];
+        
+        // $horaOc = $TablaHora -> tablaUpdate(null, 
+        //     $escenario->saveTime, $actual);
+        // $actual = date("Y-m-d H:i",$actual);
 
-        $escenario->update(["horaOcupada " => $horaOc,'saveTime' => $actual ]);
-        $actual=[date("l",strtotime("now")),date("H",strtotime("now"))];
+        // $escenario->update(["horaOcupada " => $horaOc,'saveTime' => $actual ]);
+        // $actual=[date("l",strtotime("now")),date("H",strtotime("now"))];
 
-        $reservado = $TablaHora->DBsemana($escenario->horaOcupada);
-        $ban = $TablaHora->DBsemana($escenario->horaBaned);
-        $tabla = $TablaHora->tablaCreator($ban, $reservado,$actual,TRUE);
-        return view('web.showEscenario',compact('escenario','tabla'));
+        // $reservado = $TablaHora->DBsemana($escenario->horaOcupada);
+        // $ban = $TablaHora->DBsemana($escenario->horaBaned);
+        // $tabla = $TablaHora->tablaCreator($ban, $reservado,$actual,TRUE);
+        /*'startHour' => '14:00:00',
+        'endHour' => '24:00:00',
+        'dias' => 'Viernes',
+        'hourPrice' => '121000',
+        'color' => 'gray', 
+        'escenario_id' => 1 ,*/
+        return view('web.showEscenario',compact('escenario','precios', 'dias'));
     }
 }

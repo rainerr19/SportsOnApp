@@ -48,57 +48,74 @@
             @endif
         </div>
     </div>
-
-    {{-- <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-
-                    <h2>Horario de la Cancha</h2>
-                    <h5>
-                    @php
-                    date_default_timezone_set("America/Bogota");
-                    echo " La fecha y hora de hoy: " ."<strong>".date("d l H:i")."</strong>";
-                    @endphp
+    <div class="row">
+        @if ($precios->isNotEmpty())
+        <div class="col-lg-12">
+            <div class="card" style="max-height:600px;min-width:320px;">
+                    <a data-toggle="collapse" data-target="#collapseTable" href="" 
+                    role="button" aria-expanded="false" aria-controls="collapseTable">
+                    <h5 class="card-header">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        Lista de precios
                     </h5>
-                    <button id="update" class="btn btn-primary btn-lg">Actualizar horarios</button>
-                </div>
-                <div class="col-md-6">
-                <ul class="list-group">
-
-                    <h4>Codigo de colores</h4>
-                    <li class="list-group-item">Horario libre</li>
-                    <li class="list-group-item" style="background-color:#d74338">Horario reservado</li>
-                    <li class="list-group-item" style="background-color:#99583D">Horario en progreso</li>
-                    <li class="list-group-item list-group-item-dark">Horario no habil para prestamo</li>
-                </ul>
+                    </a>
+                                
+                <div class="table-responsive collapse" id="collapseTable">
+                    <table class="table table-sm table-bordered table-striped">
+                        <thead>
+                            <th>horas</th>
+                            @foreach ($dias as $dia)
+                                <th>{{$dia}}</th>
+                            @endforeach
+                        </thead>
+                        <tbody>
+                            @for ($hora = 0; $hora < 24; $hora++)
+                                <tr>
+                                    <th>{{$hora+1}}</th>
+                                    @foreach ($dias as $dia)
+                                        @php
+                                            $minHour = $precios->where('dias',$dia)->pluck('startHour');
+                                            $maxHour = $precios->where('dias',$dia)->pluck('endHour');
+                                            $valores = $precios->where('dias',$dia)->pluck('hourPrice');
+                                            $colors = $precios->where('dias',$dia)->pluck('color');
+                                            foreach ($minHour as $key => $min) {            
+                                                if (($hora >= $min) and ($hora < $maxHour[$key])) {                                                           
+                                                        $valor = $valores[$key];
+                                                        $color = $colors[$key];
+                                                    }
+                                            }
+                                        @endphp
+                                        <th style="background:{{$color}}">{{ $valor }}</th>
+                                    @endforeach
+                                </tr>
+                            @endfor
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="container-fluid">
-        <div class="table-responsive">
-            <table id="horario" class="table table-bordered table-striped table-condensed">          
-                {!!$tabla!!}
-                <tr></tr>
-            </table>
-        </div>
-        <a class='btn btn-warning' onclick='clearSelec()'>Borrar seleccion <span class='badge' id='c'> 0</span></a>
-        <input type='text' name='ban_dia' id='dia' hidden>
-        <input type='text' name='ban_hora' id='hora' hidden>
-    </div> --}}
-   
-        
+        </div>          
+        @endif
+    </div>     
     <div class="card" style="min-width:320px;">
-        <h5 class="card-header">Horario de Escenario</h5>
-        <div class="card-body">
+        <a data-toggle="collapse" href=""
+            data-target="#collapseTable1"
+            role="button">
+            <h5 class="card-header">
+                    <i class="far fa-clock"></i>
+                    Horario de Escenario
+            </h5>
+        </a>
+        <div class="card-body collapse show" id="collapseTable1">
             <div id='calendar'></div>
         </div>
+        <br>
+        
+        <div class="card-footer bg-transparent">
+            <button class='btn btn-success' onclick='apartar()' id="btn-apartar" disabled>
+                Apartar  Seleccion <span class='badge' id='seleccion'> 0</span>
+            </button>
+        </div>
     </div> 
-    <br>
-    <div class="col-md-3">
-        <button class='btn btn-success' onclick='apartar()' id="btn-apartar" disabled>Apartar  Seleccion <span class='badge' id='seleccion'> 0</span></button>
-    </div>
     <hr>
 
 </div>

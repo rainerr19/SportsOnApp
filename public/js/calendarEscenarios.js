@@ -20,7 +20,6 @@
       customButtons: {
         myCustomButton: {
           text: 'borrar seleccion',
-          id: 'btn-custom',
           click: function() {
               for (let i = 0; i < count; i++) {
                   var event = calendar.getEventById('a'+i);
@@ -175,6 +174,6 @@ function clearfechas() {
 }
 //
 function apartar() {
-    alert("horas: "+ count);
+    alert("horas: "+ horas);
 }
 
