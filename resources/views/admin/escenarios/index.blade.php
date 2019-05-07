@@ -36,7 +36,7 @@
                                     <td>{{ $escenario->name }}</td>
                                     @can('detalle_escenario')
                                         <td width="10px">
-                                            <a href="{{ route('escenarios.show', $escenario->id) }}" 
+                                            <a href="{{ route('showEscenario', $escenario->id) }}" 
                                             class="btn btn-primary btn-sm">
                                                 ver
                                             </a>

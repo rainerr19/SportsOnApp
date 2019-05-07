@@ -111,9 +111,18 @@
         <br>
         
         <div class="card-footer bg-transparent">
-            <button class='btn btn-success' onclick='apartar()' id="btn-apartar" disabled>
+            {!! Form::open(['route' => ['prestamo', $escenario->id],
+            'method' => 'POST']) !!}
+
+            <input type="text" name='dateStart' id='dateStart' hidden>
+            <input type='text' name='dateEnd' id='dateEnd' hidden>
+            <input type='text' name='horas' id='horas' hidden>
+            
+
+            <button type="submit" class='btn btn-success' id="btn-apartar" disabled>
                 Apartar  Seleccion <span class='badge' id='seleccion'> 0</span>
             </button>
+            {!! Form::close() !!}
         </div>
     </div> 
     <hr>

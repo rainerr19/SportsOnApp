@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Escenario extends Model
 {   
+    // const CREATED_AT = 'creation_date';
+    // const UPDATED_AT = 'last_update';
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -13,6 +16,10 @@ class Escenario extends Model
     public function businessHorus()
     {
         return $this->hasMany(BusinessHour::class);
+    }
+    public function pestamos()
+    {
+        return $this->HasMany('App\Prestamo');
     }
     public function prices()
     {
@@ -24,7 +31,7 @@ class Escenario extends Model
     }
     protected $fillable = [
         'name', 'paga', 'tipo', 'caracteristicas', 'direccion', 'latitud',
-        'longitud', 'detalles', 'horaBaned', 'horaOcupada', 'img','user_id','saveTime'  
+        'longitud', 'detalles', 'img','user_id'  
     ];
 
 }

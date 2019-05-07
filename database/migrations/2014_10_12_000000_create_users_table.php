@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('img',128)->default('perfilDefault.jpg');
             $table->string('email')->unique();
             $table->enum('sexo',['Masculino', 'Femenino'])->nullable();
+            $table->string('plan')->nullable();//tipo de plan gold, premium, plata
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

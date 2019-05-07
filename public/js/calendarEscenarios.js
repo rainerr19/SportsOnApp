@@ -3,9 +3,9 @@
  var horas = 0;
  var dateStart = [];// global horas seleccionada
  var dateEnd = [];// global dias selecionados
+ var UrlJson = window.location.href;
   document.addEventListener('DOMContentLoaded', function() {
       
-      var UrlJson = window.location.href;
       var Urlhoras = UrlJson.replace("show", "showHoras");
       var UrlhorasBusy = UrlJson.replace("show", "showHorasBusy");
       
@@ -137,6 +137,12 @@
     Httpreq.send(null);
     return Httpreq.responseText;          
 }
+function Post(Url,data){
+  var Httpreq = new XMLHttpRequest(); // nuevo request
+  Httpreq.open("Post",Url,true);
+  Httpreq.send(data);
+  return Httpreq.responseText;          
+}
 // function valBusy(item, index) {
 //         return '{daysOfWeek:' + item.daysOfWeek +' startTime:' + item.startTime 
 //         + ' endTime: ' + item.endTime + '},';
@@ -157,11 +163,17 @@ function agregar(Start,End) {
     horas = horas + b.diff(a, 'hours');
     document.getElementById("btn-apartar").disabled = false;
     document.getElementById("seleccion").innerHTML = horas;
+    
     dateStart.push(Start);
     dateEnd.push(End);
-    console.log(dateStart);
-    console.log(dateEnd);
-    console.log(b.diff(a, 'hours') );   
+    document.getElementById("horas").value = horas;
+    document.getElementById("dateStart").value = dateStart;
+    document.getElementById("dateEnd").value = dateEnd;
+    
+    
+    // console.log(dateStart);
+    // console.log(dateEnd);
+    // console.log(b.diff(a, 'hours') );   
 }
 //
 function clearfechas() {
@@ -171,9 +183,12 @@ function clearfechas() {
     document.getElementById("seleccion").innerHTML = count;
     dateStart=[];
     dateEnd=[];   
+    document.getElementById("horas").value = horas;
+    document.getElementById("dateStart").value = dateStart;
+    document.getElementById("dateEnd").value = dateEnd;
 }
 //
-function apartar() {
-    alert("horas: "+ horas);
-}
+//ocultar terminal ctrl+j
+
+
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 use App\Policies\EscenarioPolicy;
+use App\Policies\PrestamoPolicy;
 use Spatie\Permission\Models\Permission;
 use App\Escenario;
 use Illuminate\Support\Facades\Gate;
@@ -16,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         //'App\Model' => 'App\Policies\ModelPolicy',
+        Prestamo::class => PrestamoPolicy::class,
         Escenario::class => EscenarioPolicy::class //solo escenarios propios 
     ];
 

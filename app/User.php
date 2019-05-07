@@ -39,6 +39,10 @@ class User extends Authenticatable
         //interest_id 	user_id  interests_user 
         // (modelo a relacionar, nombre de tabla pivot, llave propia, llave foranea del modelo a realcionar)
     }
+    public function prestamos()
+    {
+        return $this->HasMany('App\Prestamo');
+    }
     public function asociados()
     {
         return $this->hasMany(Asociado::class);

@@ -19,6 +19,7 @@
     <link href="{{ asset('plugins/fullcalendar4/packages/daygrid/main.min.css') }}" rel='stylesheet'/>
     <link href="{{ asset('plugins/fullcalendar4/packages/timegrid/main.min.css') }}" rel='stylesheet' />
     <link href="{{ asset('plugins/fullcalendar4/packages/bootstrap/main.min.css') }}" rel='stylesheet'/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
     <link href="{{ asset('css/myStyleApp.css') }}" rel="stylesheet"/>
 </head>
 <header>
@@ -69,6 +70,10 @@
                                     <a  class="nav-link" href="{{ url('/roles') }}"> Roles</a>
                             </li>
                         @endcan
+                            <li class="nav-item">
+                                    
+                                    <a  class="nav-link" href="{{ url('/historial') }}">Prestmos</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#"
                                     id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -132,11 +137,15 @@
     
     <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    {{-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.3.0.js" integrity="sha256-TFWSuDJt6kS+huV+vVlyV1jM3dwGdeNWqezhTxXB/X8=" crossorigin="anonymous"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> --}}
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <script src="{{ asset('plugins/fullcalendar4/packages/core/main.min.js') }}"></script>
     <script src="{{ asset('plugins/fullcalendar4/packages/moment/main.min.js') }}"></script>
     <script src="{{ asset('plugins/fullcalendar4/packages/moment-timezone/main.min.js') }}"></script>
@@ -145,7 +154,7 @@
     <script src="{{ asset('plugins/fullcalendar4/packages/daygrid/main.min.js') }}"></script>
     <script src="{{ asset('plugins/fullcalendar4/packages/timegrid/main.min.js') }}"></script>
     <script src="{{ asset('plugins/fullcalendar4/packages/bootstrap/main.min.js') }}"></script>
-    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     @yield('scripts')
     {{-- <script src="{{ asset('js/selectHora.js') }}"></script> --}}
 </body>

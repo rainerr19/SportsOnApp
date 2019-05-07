@@ -13,10 +13,6 @@
         {{-- <textarea class='form-control' name='caracteristicas' required> </textarea> --}}
     </div>
     <div class='form-group'>
-        {{Form::label('paga','paga?')}} 
-        {{Form::select('paga',['0' => 'No', '1' => 'Si'])}}
-    </div>
-    <div class='form-group'>
         {{Form::label('detalles','Detalles')}} 
         {{-- <label>Detalles</label> --}}
         {{Form::textarea('detalles',null, ['class'=>'form-control'])}}
@@ -49,7 +45,7 @@
             </div>
             <div class="col-sm-5">
                     {{Form::label('Imagen','Cambiar imagen del escenario')}}
-                    {{Form::file('imagen',['class'=>'form-control-file','required'])}}
+                    {{Form::file('imagen',['class'=>'form-control-file'])}}
             </div>
         </div> 
 
@@ -61,16 +57,80 @@
          'step' => '0.0000001', 'required'])}}
         {{Form::number('longitud', null, ['class'=>'form-control',
         'placeholder' => 'longitud', 'min' => '-180', 'max' => '180', 'lang' => 'en',
-         'step' => '0.0000001', 'required'])}};
+         'step' => '0.0000001', 'required'])}}
     </div>  
     
     {{-- {{Form::file('image'),null,['class'=>'form-control-file']}} --}}
     
-    <h4>horario restringido</h4>
-    <p>(seleccione las hora en las que el escenario no se puede prestar)</p>
+    <h4>Horario de trabajo</h4>
+    <small class="form-text text-muted">
+            Seleccione las hora en las que el escenario este disponible.
+            Si esta disponible 24 horas no agrege ningún horario.
+          </small>
     <hr>
+    {{-- {{ Form::date('fechas', null,['class' => 'form-control']) }} --}}
+    <div class="form-group col-md-5">
+            <ul class="list-group list-group-flush" id="times">
+                @php
+                    //dd($escenario->businessHorus!=null);
+                    if(Request::url()=='http://localhost/SportsOnAplication/public/escenarios/create'){
+                        $BHs = null;
+                    }else{
 
-    <div class='form-group table-responsive'>
+                        $BHs = $escenario->businessHorus;
+                    }
+                @endphp
+                @if ($BHs != null)
+                    @foreach ($BHs as $BH)
+                        <li class="list-group-item list-group-item-info" id='del-{{$BH->id}}'>
+                            {{$dias[array_search($BH->daysOfWeek, $dbDias)]}}, 
+                            {{date("H:i", strtotime($BH->startTime))}} -
+                            {{date("H:i", strtotime($BH->endTime))}}
+                            {{-- {!! Form::open(['route' => ['escenarios.destroyBusinessHour', $BH->id], 'method' => 'DELETE']) !!}
+                                <button class="btn btn-danger btn-lg">
+                                    SI
+                                </button>
+                            {!! Form::close() !!} --}}
+                            <button type="button" class="btn btn-outline-danger" onclick="delitehour({{$BH->id}})">
+                            <i class="far fa-trash-alt"></i></button></li>
+                    @endforeach
+                @endif         
+            </ul> 
+            <input type='text' name='bussinessDay' id='bdia' hidden>
+            <input type='text' name='bussinesshours' id='bhour' hidden>     
+    </div>
+    <div class="form-row">
+        <div class="form-group col-12 col-md-5">
+            <div class="input-group date" >
+                <input class="timepicker text-center form-control" id="timepicker1"/>
+                <div class="input-group-text">-</div>
+                <input class="timepicker text-center form-control" id="timepicker2"/>
+                <div class="input-group-append">
+                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                </div>
+            </div>  
+        </div>
+        <div class="form-group col-10 col-md-5">
+            <select id="dias" class="form-control">
+                    <option selected> Dias..</option>
+                    @foreach ($dias as $dia)
+                        <option>{{$dia}}</option>
+                    @endforeach
+            </select>
+        </div>
+        <div class="form-group col-2 col-md-2">
+            <div class="input-group-prepend">
+                    <button type="button" id="timeSelec" class="btn btn-outline-secondary" >
+                        <i class="fas fa-plus-circle"></i>
+                    </button>
+            </div>
+        </div>    
+    </div>
+    <div class='form-group'>
+            {{Form::label('paga','paga?')}} 
+            {{Form::select('paga',['0' => 'No', '1' => 'Si'])}}
+    </div>     
+    {{-- <div class='form-group table-responsive'>
         <table id='horario' class='table table-bordered table-striped table-condensed'>
             {!!$tabla!!}
         </table>
@@ -80,9 +140,10 @@
         <input type='text' name='ban_dia' id='dia' hidden>
         <input type='text' name='ban_hora' id='hora' hidden>
     </div>
-    <hr>		
+    <hr>		 --}}
     <div class='form-group'>
             {{Form::submit(' Subir a paguina',['class'=>'btn btn-primary'])}}
     </div> 
-<hr>";
+<hr>
+<br><br><br>
         

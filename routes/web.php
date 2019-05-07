@@ -27,6 +27,14 @@ Route::get('mainPage/{id}/showHorasBusy', 'Web\EscenariosCalendarController@get_
 //Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group( function (){
+    //prestamos
+    Route::get('historial/', 'Web\PrestamoController@index')
+        ->name('web.historial');
+    Route::get('{prestamo_id}/historialShow', 'Web\PrestamoController@show')
+        ->name('web.historialshow');
+    Route::post('mainPage/{escenario_id}/prestamo', 'Web\PrestamoController@create')
+        ->name('prestamo');
+
     //permisos de listar
     Route::get('escenarios', 'Admin\EscenariosController@index')
         ->name('escenarios.index')
@@ -43,10 +51,8 @@ Route::middleware(['auth'])->group( function (){
     Route::put('escenarios/{escenario}', 'Admin\EscenariosController@update')
         ->name('escenarios.update')
         ->middleware('permission:edit_escenario');
-    // permiso de mirar detalle
-    Route::get('escenarios/{escenario}', 'Admin\EscenariosController@show')
-        ->name('escenarios.show')
-        ->middleware('permission:detalle_escenario');
+
+
     // formulario de edicion
     Route::get('escenarios/{escenario}/edit', 'Admin\EscenariosController@edit')
         ->name('escenarios.edit')
@@ -55,6 +61,8 @@ Route::middleware(['auth'])->group( function (){
     Route::delete('escenarios/{escenario}', 'Admin\EscenariosController@destroy')
         ->name('escenarios.destroy')
         ->middleware('permission:eliminar_escenario');
+    Route::delete('escenarios/bhoradel/{id}/', 'Admin\EscenariosController@destroyBusinessHour');
+        
 /********************* USERS ***********************************/
     //permisos de listar
     Route::get('web/perfil', 'web\PageController@perfil')

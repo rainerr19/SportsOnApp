@@ -74,23 +74,7 @@ class PageController extends Controller
         $precios =$escenario->prices;
         $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
             ,"Domingo","Festivos"];
-        
-        // $horaOc = $TablaHora -> tablaUpdate(null, 
-        //     $escenario->saveTime, $actual);
-        // $actual = date("Y-m-d H:i",$actual);
-
-        // $escenario->update(["horaOcupada " => $horaOc,'saveTime' => $actual ]);
-        // $actual=[date("l",strtotime("now")),date("H",strtotime("now"))];
-
-        // $reservado = $TablaHora->DBsemana($escenario->horaOcupada);
-        // $ban = $TablaHora->DBsemana($escenario->horaBaned);
-        // $tabla = $TablaHora->tablaCreator($ban, $reservado,$actual,TRUE);
-        /*'startHour' => '14:00:00',
-        'endHour' => '24:00:00',
-        'dias' => 'Viernes',
-        'hourPrice' => '121000',
-        'color' => 'gray', 
-        'escenario_id' => 1 ,*/
+    
         return view('web.showEscenario',compact('escenario','precios', 'dias'));
     }
 }
