@@ -47,6 +47,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Asociado::class);
     }
+    public function isOwner()//es dueño
+    {   //$asociados = Asociado::all();
+        $Escenarios = Escenario::where('user_id',$this->id)->count(); 
+
+        return $Escenarios != 0;
+    }
     public function isAsociado()
     {   //$asociados = Asociado::all();
         $asociado = Asociado::all()->where('user_asociado',$this->id); 

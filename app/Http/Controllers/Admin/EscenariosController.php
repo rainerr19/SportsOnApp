@@ -58,9 +58,9 @@ class EscenariosController extends Controller
         //dd($actual);//['dia de la semana','hora del dia']
         // $tabla = $TablaHora->tablaCreator($ban, $reservado, [' ', '-1'],FALSE);
         $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
-            ,"Domingo","Toda la semana"];
-        $dbdias=['[0]','[1]','[2]','[3]','[4]','[5]','[6]','[7]',
-            '[0,1,2,3,4,5,6,7]'];
+        ,"Domingo","Lunes a viernes","Toda la semana"];
+         $dbdias=['[1]','[2]','[3]','[4]','[5]','[6]','[0]','[1,2,3,4,5]',
+         '[0,1,2,3,4,5,6,7]'];
         return view('admin.escenarios.create',compact('dias'));
     }
 
@@ -68,7 +68,7 @@ class EscenariosController extends Controller
     public function store(EscenarioStoreRequest $request)
     {           // $TablaHora = new HoraTablaCreator();
 
-        $data1 = $request->except(['bussinessDay','bussinesshours']);
+        $data1 = $request->except(['bussinessDay','bussinesshours', 'price']);
         $data = array_merge($data1,["user_id" => auth()->id()] );
         $escenario = (new Escenario)->fill($data);
         //$escenario = Escenario::create($data);
@@ -80,10 +80,10 @@ class EscenariosController extends Controller
        //obtenemos el nombre del archivo
        //$nombre = $file->getClientOriginalName();
        //$escenario->fill(['img' => asset( $ruta)])->save();
-        $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
-            ,"Domingo","Toda la semana"];
-        $dbdias=['[0]','[1]','[2]','[3]','[4]','[5]','[6]',
-        '[0,1,2,3,4,5,6,7]'];
+       $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
+       ,"Domingo","Lunes a viernes","Toda la semana"];
+       $dbdias=['[1]','[2]','[3]','[4]','[5]','[6]','[0]','[1,2,3,4,5]',
+       '[0,1,2,3,4,5,6,7]'];
         $bussinessDay = $request['bussinessDay'];
         $bussinesshours = $request['bussinesshours'];
         if ($bussinessDay != null and $bussinesshours != null ) {
@@ -116,8 +116,8 @@ class EscenariosController extends Controller
         // $reservado = $TablaHora->DBsemana("");
         // $tabla = $TablaHora->tablaCreator($ban, $reservado, [' ','-1'],FALSE);
         // BusinessHour
-        $dbDias = ['[1]','[2]','[3]','[4]','[5]','[6]','[0]','[1,2,3,4,5]',
-        '[0,1,2,3,4,5,6]'];
+        $dbDias=['[1]','[2]','[3]','[4]','[5]','[6]','[0]','[1,2,3,4,5]',
+         '[0,1,2,3,4,5,6,7]'];
         // dd($bussinesshours);
         $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
         ,"Domingo","Lunes a viernes","Toda la semana"];
@@ -131,7 +131,7 @@ class EscenariosController extends Controller
             Storage::delete($escenario->img);
             $escenario->img = $request->file('imagen')->store('public/EscenarioImg');
         }
-        $data1 = $request->except(['bussinessDay','bussinesshours']);
+        $data1 = $request->except(['bussinessDay','bussinesshours','price']);
 
         $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
             ,"Domingo","Lunes a viernes","Toda la semana"];

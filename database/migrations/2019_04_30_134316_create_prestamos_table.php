@@ -18,12 +18,13 @@ class CreatePrestamosTable extends Migration
             $table->dateTime('loanDateStart');
             $table->dateTime('loanDateEnd');
             $table->dateTime('DateLoan');
-            $table->enum('estado',['Prestado','Por Confirmar', 'Rechazado',  'Devolucion']);
+            $table->enum('estado',['Prestado','Por Confirmar', 'Rechazado',  'Devolución']);
             $table->mediumText('detalles')->nullable();
             // $table->integer('calificacion')->nullable();
             // $table->mediumText('comentario')->nullable();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('escenario_id');
+           
             //relation 
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')

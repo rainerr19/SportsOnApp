@@ -138,7 +138,7 @@ class HoraTablaCreator
             "D" => ["Domingo","Sunday"]
         ];
         if ($showDia) {
-            date_default_timezone_set("America/Mexico_City");
+            date_default_timezone_set("America/Bogota");
         }
         $iDia=0;
         foreach($week as $d){

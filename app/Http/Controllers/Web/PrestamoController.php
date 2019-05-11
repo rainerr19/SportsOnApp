@@ -14,9 +14,11 @@ class PrestamoController extends Controller
     
     public function create($escenario_id,CreatePrestamoRequest $request)
     {
+        // $user = User::findOrFail(auth()->id());
+        // dd($user->isAsociado() or  $user->isOwner());
         //$escenario = Escenario::findOrFail($escenario_id);
         date_default_timezone_set("America/Bogota");//horario de colombia
-         $actual = date("Y-m-d H:i",strtotime("now"));
+        $actual = date("Y-m-d H:i",strtotime("now"));
         $dateStart = explode(",",$request->input('dateStart'));
         $dateEnd = explode(",",$request->input('dateEnd'));
         foreach ($dateStart as $key => $value) {
@@ -24,12 +26,10 @@ class PrestamoController extends Controller
                'loanDateEnd'=>$dateEnd[$key], 'estado'=>'Por Confirmar',
                'user_id'=>(auth()->id()),'escenario_id'=>$escenario_id,
                 'DateLoan'=>$actual]);
-            //dd($value);
         }
         return redirect()->route('web.historial')
             ->with('info', 'Prestamo creado con éxito,
                  Espera confirmación por correo');
-        // return 'hola';
     }
     public function show($id_prestamo)
     {   
@@ -50,13 +50,6 @@ class PrestamoController extends Controller
         return view('web.historial',compact('prestamos'));
     }
 
-    // public function tbla()
-    // { 
-    //     return datatables()
-    //         ->collection(User::findOrFail(auth()->id())->prestamos)
-    //         ->toJson();
-    // }
-    
     // public function edit(Prestamo $prestamo)
     // {
     //     //

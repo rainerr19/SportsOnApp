@@ -112,7 +112,7 @@
         
         <div class="card-footer bg-transparent">
             {!! Form::open(['route' => ['prestamo', $escenario->id],
-            'method' => 'POST']) !!}
+            'method' => 'GET']) !!}
 
             <input type="text" name='dateStart' id='dateStart' hidden>
             <input type='text' name='dateEnd' id='dateEnd' hidden>

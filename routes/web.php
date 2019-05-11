@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group( function (){
         ->name('web.historial');
     Route::get('{prestamo_id}/historialShow', 'Web\PrestamoController@show')
         ->name('web.historialshow');
-    Route::post('mainPage/{escenario_id}/prestamo', 'Web\PrestamoController@create')
+    Route::get('mainPage/{escenario_id}/prestamo', 'Web\PrestamoController@create')
         ->name('prestamo');
 
     //permisos de listar
@@ -62,7 +62,23 @@ Route::middleware(['auth'])->group( function (){
         ->name('escenarios.destroy')
         ->middleware('permission:eliminar_escenario');
     Route::delete('escenarios/bhoradel/{id}/', 'Admin\EscenariosController@destroyBusinessHour');
-        
+    //listar prestamos
+    Route::get('adminprestamos/', 'Admin\PrestamoAdminController@index')
+        ->name('prestamos.index')
+        ->middleware('permission:lista_escenario');
+    Route::get('adminprestamos/aceptar/{id}', 'Admin\PrestamoAdminController@aceptar')
+        ->name('prestamos.aceptar')
+        ->middleware('permission:lista_escenario');
+    Route::get('adminprestamos/Rechazar/{id}', 'Admin\PrestamoAdminController@rechazar')
+        ->name('prestamos.rechazar')
+        ->middleware('permission:lista_escenario');
+    Route::get('adminprestamos/devolver/{id}', 'Admin\PrestamoAdminController@devolver')
+        ->name('prestamos.devolver')
+        ->middleware('permission:lista_escenario');
+
+    Route::get('adminprestamos/devolucion/{id}', 'Admin\PrestamoAdminController@devolver')
+        ->name('prestamos.devolver')
+        ->middleware('permission:lista_escenario');
 /********************* USERS ***********************************/
     //permisos de listar
     Route::get('web/perfil', 'web\PageController@perfil')

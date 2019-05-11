@@ -109,6 +109,7 @@
             url: Urlhoras,
             failure: function() {
               alert('Error al cargar horas');
+              window.location.href = "../";
             }
         }
     });

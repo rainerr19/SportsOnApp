@@ -57,6 +57,11 @@
                                 
                                 <a  class="nav-link" href="{{ url('/escenarios') }}"> Escenarios</a>
                             </li>
+                            <li class="nav-item">
+                                
+                                    <a  class="nav-link" href="{{url('adminprestamos/')}}"> Control de prestamos</a>
+                            </li>
+                            
                         @endcan
                         @can('lista_user')
                             <li class="nav-item">

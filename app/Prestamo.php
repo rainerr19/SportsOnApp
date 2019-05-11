@@ -22,4 +22,8 @@ class Prestamo extends Model
          return $this->belongsTo('App\User','user_id');
           //interest_id 	user_id  interests_user 
      }
+     public function calendar()
+     {
+         return $this->hasOne('App\EscenariosCalendar','prestamo_id');
+     }
 }

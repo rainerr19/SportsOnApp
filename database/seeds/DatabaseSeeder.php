@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EscenarioTableSeeder::class);
         $this->call(PriceTableSeeder::class);
         $this->call(BusinessHourTableSeeder::class);
+        $this->call(InterestTableSeeder::class);
     }
 }
