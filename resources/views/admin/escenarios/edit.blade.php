@@ -41,8 +41,34 @@
                 success: function(result) {
                     $('#del-'+id).remove()
                     console.log(result);
-                }
+                },error: function(textStatus, errorThrown) { 
+                console.log(errorThrown);
+                alert("Status: " + textStatus);  
+            }
             });
         }
+    function delitePrice(id2) {  
+        // escenarios/pricedel/{id}/  
+        var urlp = '{{url("escenarios/pricedel/")}}/'+id2+'/';
+        console.log(urlp);
+        $.ajax({
+            url: '{{url("escenarios/pricedel/")}}/'+id2+'/',
+            type: 'DELETE',
+            dataType: 'JSON',
+            data: {
+                "id": id2,
+            "_method": 'DELETE',
+            "_token": "{{ csrf_token() }}",
+            },
+            success: function(result) {
+                $('#delp-'+id2).remove()
+                console.log(result);
+            },
+            error: function(textStatus, errorThrown) { 
+                console.log(errorThrown);
+                alert("Status: " + textStatus);  
+            }  
+        });
+    }
     </script>
 @endsection

@@ -71,7 +71,7 @@ class PageController extends Controller
         // $TablaHora = new HoraTablaCreator();
         date_default_timezone_set("America/Bogota");
         $actual = strtotime("now");// stamp "now" "27-05-2018 09:01"
-        $precios =$escenario->prices;
+        $precios = $escenario->prices;
         $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
             ,"Domingo","Festivos"];
     

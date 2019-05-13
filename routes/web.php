@@ -62,6 +62,7 @@ Route::middleware(['auth'])->group( function (){
         ->name('escenarios.destroy')
         ->middleware('permission:eliminar_escenario');
     Route::delete('escenarios/bhoradel/{id}/', 'Admin\EscenariosController@destroyBusinessHour');
+    Route::delete('escenarios/pricedel/{id2}/', 'Admin\EscenariosController@destroyPrice');
     //listar prestamos
     Route::get('adminprestamos/', 'Admin\PrestamoAdminController@index')
         ->name('prestamos.index')

@@ -69,7 +69,7 @@
                             @endforeach
                         </thead>
                         <tbody>
-                            @for ($hora = 0; $hora < 24; $hora++)
+                            @for ($hora = 0; $hora < 23; $hora++)
                                 <tr>
                                     <th>{{$hora+1}}</th>
                                     @foreach ($dias as $dia)

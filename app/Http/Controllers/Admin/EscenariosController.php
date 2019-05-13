@@ -9,7 +9,8 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use \App\Escenario;
 use \App\User;
-use App\Asociado;
+use \App\Asociado;
+use \App\price;
 use App\BusinessHour;
 use \App\Classes\HoraTablaCreator;
 use Illuminate\Support\Facades\Storage;
@@ -111,17 +112,17 @@ class EscenariosController extends Controller
 
     public function edit(Escenario $escenario)
     {   $this->authorize('owner', $escenario);//editar solos los escenarios propios o de socios
-        // $TablaHora = new HoraTablaCreator();
-        // $ban = $TablaHora->DBsemana(""); //horrios restringidos
-        // $reservado = $TablaHora->DBsemana("");
-        // $tabla = $TablaHora->tablaCreator($ban, $reservado, [' ','-1'],FALSE);
         // BusinessHour
         $dbDias=['[1]','[2]','[3]','[4]','[5]','[6]','[0]','[1,2,3,4,5]',
          '[0,1,2,3,4,5,6,7]'];
         // dd($bussinesshours);
+        $precios = $escenario->prices;
+        // dd($precios->where('dias','Lunes'));
+        // $prestamos = Prestamo::where('escenario_id', '=',$escenarios->first()->id )
+        // ->orderBy('DateLoan', 'desc')->paginate(10);
         $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
         ,"Domingo","Lunes a viernes","Toda la semana"];
-         return view('admin.escenarios.edit', compact('escenario','dias','dbDias'));
+         return view('admin.escenarios.edit', compact('escenario','dias','dbDias','precios'));
     }
 
     public function update(EscenarioUpdateRequest $request, Escenario $escenario)
@@ -131,10 +132,10 @@ class EscenariosController extends Controller
             Storage::delete($escenario->img);
             $escenario->img = $request->file('imagen')->store('public/EscenarioImg');
         }
-        $data1 = $request->except(['bussinessDay','bussinesshours','price']);
-
+        $data1 = $request->except(['bussinessDay','bussinesshours','price',
+        "pday",  "phour1",  "phour2",  "prices",  "pcolor", ]);
         $dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
-            ,"Domingo","Lunes a viernes","Toda la semana"];
+        ,"Domingo","Lunes a viernes","Toda la semana"];
         $dbdias=['[1]','[2]','[3]','[4]','[5]','[6]','[0]','[1,2,3,4,5]',
         '[0,1,2,3,4,5,6]'];
         $bussinessDay = $request['bussinessDay'];
@@ -153,9 +154,40 @@ class EscenariosController extends Controller
                     'startTime'=> $hours[0],
                     'endTime'=> $hours[1],
                     'escenario_id' => $escenario->id,
-                ]);
+                    ]);
             }
         }
+        if($data1['paga']=='Si'){
+            $data1['paga'] = 1;
+            $days=explode(",", $request['pday']);
+            $hora1=explode(",", $request["phour1"]);
+            $hora2=explode(",", $request["phour2"]);
+            $valor=explode(",", $request["prices"]);
+            $colors=explode(",", $request["pcolor"]);
+            if ($request['pday'] != null and $request["phour1"] != null 
+            and $request["phour2"] != null and  $request["prices"] != null and 
+            $request["pcolor"] != null){
+
+                for ($i=0; $i < sizeof($days); $i++) { 
+                  
+                    price::create([
+                        "dias" => $days[$i],
+                        "color" => $colors[$i],
+                        "startHour" => date("H:i:s",strtotime($hora1[$i])),
+                        "endHour" => date("H:i:s",strtotime($hora2[$i])),
+                        "hourPrice" => $valor[$i],
+                        "escenario_id"=> $escenario->id,
+                        ]);  
+                    }
+            }
+            }else{
+                $data1['paga'] = 0;
+            $precios = $escenario->prices;
+            foreach ($precios as $precio) {
+                $precio->delete();
+            }
+        }
+        
         $escenario->update($data1);
         return redirect()->route('escenarios.edit',$escenario->id)
             ->with('info', 'Escenario actualizado con exito');
@@ -173,7 +205,6 @@ class EscenariosController extends Controller
     }
     public function destroyBusinessHour(Request $request)
     {    
-        
         if($request->ajax()){
             
              $DBH = BusinessHour::findOrFail($request['id']);
@@ -183,6 +214,21 @@ class EscenariosController extends Controller
             return response()->json(['
             success' => 'Record has been deleted successfully!',]);
         };
+        // $cancha->delete();
+        // return back()->with('info','eliminado con exito');
+    }
+    public function destroyPrice(Request $request)
+    {    
+        
+        if($request->ajax()){
+            $pri = price::findOrFail($request['id']);
+            
+           // //$this->authorize('owner', $escenario);//eliminar solos los escenarios propios o de socios
+           
+           $pri->delete();
+           return response()->json(['
+           success' => 'Record has been deleted successfully!']);
+       };
         
         // $cancha->delete();
         // return back()->with('info','eliminado con exito');

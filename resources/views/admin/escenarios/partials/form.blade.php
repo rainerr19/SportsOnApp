@@ -120,10 +120,20 @@
         </div>    
     </div>
     <div class='form-group col-md-5'>
-        {{Form::label('paga','paga?')}} 
-            <select id="pago" class="form-control">
-                    <option selected> No</option>
+        {{Form::label('paga','Paga?')}} 
+        <small class="form-text text-muted">
+               Si selecciona "No" y actualiza, se eliminaran todos los precios ingresados
+                </small>
+                {{-- {{dd($escenario->paga)}} --}}
+            <select name="paga" id="pago" class="form-control">
+                @if ($escenario->paga)
                     <option selected> Si</option>
+                    <option> No</option>
+                @else
+                    <option> No</option>
+                    <option>Si</option> 
+                @endif
+                
             </select>
                 
     </div>     
@@ -133,6 +143,42 @@
                 En horarios No disponible agrege 0 (cero).
                 </small>
         <hr>
+        @php
+            $pdias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"
+            ,"Domingo","Festivos"];
+
+        @endphp
+        <div class="card table-responsive-sm">
+            <table class="table table-sm">
+                <thead>
+                    <th>Dias</th>
+                    <th>Valor(COP)</th>               
+                    <th>Horas</th>
+                    <th>Color</th>
+                    <th>Acción</th>
+                </thead>
+                <tbody id='tprices'>
+                    @foreach ($precios as $precio)
+                    <tr id='delp-{{$precio->id}}'>
+                        <td>{{$precio->dias}}</td>  
+                        <td>{{$precio->hourPrice}}</td>
+                        <td>{{$precio->startHour}} - {{$precio->endHour}}</td>
+                        <td>{{$precio->color}}</td>
+                        <td><button type="button" class="btn btn-outline-danger"
+                             onclick="delitePrice({{$precio->id}})">
+                                <i class="far fa-trash-alt"></i></button></li>
+                            </td>
+                    </tr>   
+                    @endforeach
+                    
+                </tbody>
+            </table>
+        </div>
+        <input type='text' name='pday' id='pday' hidden>
+        <input type='text' name='phour1' id='phour1' hidden>
+        <input type='text' name='phour2' id='phour2' hidden>
+        <input type='text' name='prices' id='prices' hidden>
+        <input type='text' name='pcolor' id='pcolor' hidden>
         <div class="form-row">
             <div class="form-group col-12 col-md-4">
                 <div class="input-group date" >
@@ -146,19 +192,28 @@
                     </div>
                 </div>  
             </div>
-            <div class="form-group col-5 col-md-3">
-                <select id="dias" class="form-control">
+            <div class="form-group col-5 col-md-2">
+                <select id="pdias" class="form-control">
                         <option selected> Dias..</option>
-                        @foreach ($dias as $dia)
-                            <option>{{$dia}}</option>
+                        @foreach ($pdias as $pdia)
+                            <option>{{$pdia}}</option>
                         @endforeach
                 </select>
             </div>
+            <div class="form-group col-5 col-md-2">
+                    <select id="color" class="form-control">
+                            <option selected> colores..</option>
+                            <option selected> green</option>
+                            <option selected> gray</option>
+                            <option selected> yellow</option>
+
+                    </select>
+                </div>
             <div class="form-group col-5 col-md-3">
-                <input type='text'class="form-control" name='price' 
-                placeholder='Valor' id='bhour'>
+                <input type="number" min="0" step="100"class="form-control" 
+                placeholder='Valor' id='hprice'>
             </div>
-            <div class="form-group col-2 col-md-2">
+            <div class="form-group col-5 col-md-1">
                 <div class="input-group-prepend">
                         <button type="button" id="pricetimeSelec" class="btn btn-outline-secondary" >
                             <i class="fas fa-plus-circle"></i>
@@ -167,6 +222,7 @@
             </div>    
         </div>
     </div>
+
     <div class='form-group'>
             {{Form::submit(' Subir a paguina',['class'=>'btn btn-primary'])}}
     </div> 

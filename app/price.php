@@ -13,6 +13,7 @@ class price extends Model
         'endHour',
         'dias',
         'hourPrice',
+        'color',
         'escenario_id',
      ];
      public function escenarios()
