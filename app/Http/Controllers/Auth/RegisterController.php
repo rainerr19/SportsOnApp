@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Verification;
 
 class RegisterController extends Controller
 {
@@ -61,12 +63,19 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {
-        return User::create([
+    {   $data['verification_code'] = str_random(30);//codigo de 20 caracteres
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'img' => 'perfilDefault.jpg',
+            'verification_code' => $data['verification_code'],
         ]);
+        // Mail::to($data['email'])->send(new Welcome($data));
+        Mail::to($data['email'])->send(new Verification($data));
+        // return new Welcome($user);
+        return $user;
+        //Email welcome
     }
+    
 }

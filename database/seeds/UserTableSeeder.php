@@ -21,6 +21,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'admin@admin.com',
             'password' => bcrypt('123456'),
             'remember_token' => str_random(10),
+            'verify'   => 1,
         ]);
         $adminUser->assignRole('super-admin');
         $admin= App\User::create([
@@ -35,6 +36,7 @@ class UserTableSeeder extends Seeder
             'email'    => 'test@test.com',
             'password' => bcrypt('123456'),
             'remember_token' => str_random(10),
+            'verify'   => 1,
         ]);
         $test->assignRole('usuario');
         $test= App\User::create([

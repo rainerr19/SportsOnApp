@@ -15,7 +15,29 @@
 //     return view('welcome');
 // });
 Route::redirect('/','mainPage');
-Auth::routes();
+// Auth::routes();
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::get('verify', 'Auth\EmailVerifyController@index')->name('verify');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+
+// Registration Routes...
+Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('register', 'Auth\RegisterController@register');
+Route::get('register/verify/{code}', 'Auth\EmailVerifyController@verifyCode');
+//
+Route::get('verify/resend/', 'Auth\EmailVerifyController@resent')
+    ->name('resendVerify')
+    ->middleware('throttle:3,1');//3 intentos en un minuto
+
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+//
+
 Route::get('mainPage', 'Web\PageController@main')->name('SportsOn');
 Route::get('mainPage/{id}/show', 'Web\PageController@show')->name('showEscenario');
 Route::get('mainPage/{id}/showHoras', 'Web\EscenariosCalendarController@get_horas')
@@ -26,7 +48,9 @@ Route::get('mainPage/{id}/showHorasBusy', 'Web\EscenariosCalendarController@get_
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware(['auth'])->group( function (){
+Route::middleware(['auth','email_verify'])->group( function (){
+    //
+
     //prestamos
     Route::get('historial/', 'Web\PrestamoController@index')
         ->name('web.historial');

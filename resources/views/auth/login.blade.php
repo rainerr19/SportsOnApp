@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="row form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 col-form-label">Password</label>
+                            <label for="password" class="col-md-4 col-form-label">Contraseña</label>
 
                             <div class="col-md-8">
                                 <input id="password" type="password" class="form-control" name="password" required>
@@ -43,7 +43,7 @@
                             <div class="col-md-8 ml-auto">
                                 <div class="form-check">
                                     <label>
-                                        <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                        <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Recuerdame
                                     </label>
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                                 </button>
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    Forgot Your Password?
+                                    Olvidaste tu Contraseña?
                                 </a>
                             </div>
                         </div>

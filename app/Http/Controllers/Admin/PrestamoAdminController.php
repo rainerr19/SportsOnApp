@@ -10,6 +10,8 @@ use App\EscenariosCalendar;
 use App\Prestamo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\PrestamoNotification;
 
 class PrestamoAdminController extends Controller
 {
@@ -67,11 +69,12 @@ class PrestamoAdminController extends Controller
                 'end'=>$prestamo->loanDateEnd, 'user_id'=> $prestamo->user->id,
                 'escenario_id'=>$prestamo->escenario->id, 
                 'prestamo_id'=>$prestamo->id
-            ]);
+                ]);
         }
-
-        $prestamo->estado='Prestado';
-        $prestamo->save(); 
+            $prestamo->estado='Prestado';
+            $prestamo->save(); 
+            //notificar a usuario que ha sido aceptado el prestamo
+            $prestamo->user->notify(new PrestamoNotification($prestamo->estado));// cambio de estado
             // dd($calEscenario->id);
         return redirect()->route('prestamos.index')
                 ->with('info', 'Horario guardado');
@@ -85,7 +88,8 @@ class PrestamoAdminController extends Controller
         $prestamo = Prestamo::findOrFail($id_prestamo);
         $this->authorize('owner', $prestamo->escenario);//editar solos los escenarios propios o de socios
         $prestamo->update(['estado'=> 'Rechazado']);
-        // dd( $prestamo);
+        //notificar a usuario que ha sido aceptado el prestamo
+        $prestamo->user->notify(new PrestamoNotification($prestamo->estado));// cambio de estado
         //
         return redirect()->route('prestamos.index')
              ->with('info', 'Horario guardado');
@@ -100,7 +104,9 @@ class PrestamoAdminController extends Controller
         $prestamo->save();
         // $prestamo->update(['estado'=> 'Devolución',
         //  'escenarios_calendars_id'=>NULL]);
-        // dd( $prestamo);
+        //notificar a usuario devolucion del prestamo
+        $prestamo->user->notify(new PrestamoNotification($prestamo->estado));// cambio de estado
+        // $user->notify(new PrestamoNotification($estado));
        
         return redirect()->route('prestamos.index')
                  ->with('info', 'Devolución exitosa');
@@ -109,59 +115,4 @@ class PrestamoAdminController extends Controller
         //
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show($id)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, $id)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     //
-    // }
 }

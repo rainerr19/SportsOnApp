@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->enum('sexo',['Masculino', 'Femenino'])->nullable();
             $table->string('plan')->nullable();//tipo de plan gold, premium, plata
+            $table->string('verification_code')->nullable();
+            $table->boolean('verify')->default(0);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
